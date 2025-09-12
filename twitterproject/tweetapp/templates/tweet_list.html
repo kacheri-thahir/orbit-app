@@ -1,0 +1,185 @@
+{% extends "layout.html" %}
+ {% comment %} {% block title %} 
+Tweets
+{% endblock %}
+
+{% block content %}
+
+<div class="container row p-5 ">
+  {% for tweet in tweets %}
+
+  <div class="card mb-3">
+    {% if tweet.photo %}
+      <img src="{{ tweet.photo.url }}" class="card-img-top" alt="image">
+    {% endif %}
+
+  <div class="card-body">
+    <h5 class="card-title">{{ tweet.user.username }}</h5>
+    <p class="card-text">{{ tweet.text|linebreaksbr }}</p>
+    <p class="card-text">
+      <small class="text-body-secondary">{{ tweet.created_at }}</small>
+    </p>
+    {% if tweet.user == user %}              {# Shows only edit,delete button to their accounts #}
+      <a href="{% url "edit_tweet" tweet.pk %}" class="btn btn-primary">Edit</a>
+      <a href="{% url "delete_tweet" tweet.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    </div>
+    </div>
+
+  
+  {% endfor %}
+  
+  {% endblock %} {% endcomment %}
+
+
+
+
+
+
+{% comment %} {% block title %}Tweets{% endblock %}
+
+{% block content %}
+<main class="w-full max-w-xl p-4 mt-6 space-y-6 mx-auto">
+  <div class="container">
+      {% for tweet in tweets %}
+      <div class="card mb-6">
+          <!-- Post image -->
+          {% if tweet.photo %}
+            <div class="card-img-container">
+                <img class="card-img-top" src="{{ tweet.photo.url }}" alt="Post Image">
+            </div>
+          {% endif %}
+
+          <!-- Card body -->
+          <div class="card-body">
+              <!-- User info -->
+              <h5 class="card-title">{{ tweet.user.username }}</h5>
+
+              <!-- Post text -->
+              <p class="card-text">{{ tweet.text|linebreaksbr }}</p>
+              <p class="card-text"><small>{{ tweet.created_at|timesince }} ago</small></p>
+
+              {% if tweet.user == user %}
+              <div class="flex space-x-2 mt-2">
+                  <a href="{% url 'edit_tweet' tweet.pk %}" class="btn btn-primary">Edit</a>
+                  <a href="{% url 'delete_tweet' tweet.pk %}" class="btn btn-danger">Delete</a>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</main>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+{% load static %}
+{% block title %}Tweets{% endblock %}
+
+{% block content %}
+<main class="w-full max-w-xl p-4 mt-6 space-y-6 mx-auto">
+  <div class="container">
+      {% for tweet in tweets %}
+      <div class="card mb-6 border rounded-lg shadow-sm">
+
+              {% comment %} post header {% endcomment %}
+              <div class="flex justify-between items-center p-3">
+              
+              <!-- Left side: Profile Picture + Username -->
+              <div class="flex items-center space-x-3">
+                  <a href="{% url 'profile_view' tweet.user.username %}"  class="flex items-center space-x-2">
+                    
+                      <div class="relative w-10 h-10">
+                        <!-- Gradient border wrapper -->
+                      <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500  to-red-600 p-[2px]">  <!--profile border while displaying on page -->
+                          <div class="w-full h-full rounded-full bg-white p-[2px]">
+                              {% if tweet.user.profile.profile_pic %}
+                                  <img src="{{ tweet.user.profile.profile_pic.url }}" 
+                                      alt="{{ tweet.user.username }} profile"
+                                      class="w-full h-full rounded-full object-cover">
+                              {% else %}
+                                  <img src="{% static 'profile_pics/default.jpeg' %}" 
+                                      alt="default profile"
+                                      class="w-full h-full rounded-full object-cover">
+                              {% endif %}
+                          </div>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a href="{% url 'profile_view' tweet.user.username %}" 
+                     class="font-bold text-gray-800 hover:underline">
+                      {{ tweet.user.username }}
+                  </a>
+              </div>
+
+              {% if tweet.user == user %}
+              <div class="dropdown">
+                  <button class="dropdown-toggle">&#x22EE;</button> <!-- three vertical dots -->
+                  <ul class="dropdown-menu">
+                      <li><a href="{% url 'edit_tweet' tweet.pk %}">Edit</a></li>
+                      <li><a href="{% url 'delete_tweet' tweet.pk %}">Delete</a></li>
+                  </ul>
+              </div>
+              {% endif %}
+          </div>
+
+          <!-- Post image -->
+          {% if tweet.photo %}
+            <div class="card-img-container">
+                <img class="card-img-top w-full object-cover" src="{{ tweet.photo.url }}" alt="Post Image">
+            </div>
+          {% endif %}
+
+          <!-- Card body -->
+          <div class="card-body p-2">
+              <!-- Post text -->
+              <p class="card-text">{{ tweet.text|linebreaksbr }}</p>
+              <p class="card-text text-gray-400 text-sm"><small>{{ tweet.created_at|timesince }} ago</small></p>
+
+              <!-- Like & Comment buttons -->
+              <div class="flex items-center space-x-4 mt-2">
+                  <form action="{% url 'like_tweet' tweet.pk %}" method="post">
+                      {% csrf_token %}
+                      {% if user in tweet.likes.all %}
+                        <button type="submit" class="btn btn-danger btn-sm" >{{ tweet.total_likes }} ❤️ Likes</button>
+                      {% else %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm"> {{ tweet.total_likes }} Likes</button>
+                      {% endif %}
+                  </form>
+
+                  <a href="{% url 'add_comment' tweet.pk %}" class="btn btn-outline-success btn-sm">
+                      {{ tweet.comment.count }} 💬 Comments 
+                  </a>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</main>
+
+<!-- JS for 3-dot dropdown -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggles = document.querySelectorAll('.dropdown-toggle');
+    toggles.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const menu = button.nextElementSibling;
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    });
+});
+</script>
+{% endblock %}
+

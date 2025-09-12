@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+
+
+{% comment %} {% block title %}Login{% endblock %} 
+{% block content %}
+<h1>Welome to Login Form</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+   <button class="btn btn-primary" type='submit' >Login</button>
+</form>
+<p>Don't have an account? <a href="{% url "register" %}">Register Now!</a></p>
+{% endblock %} {% endcomment %}
+
+
+{% comment %} {% extends "layout.html" %} {% endcomment %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-16 p-8 bg-white rounded-xl shadow-md">
+    <h1 class="text-2xl font-semibold text-center text-gray-900 mb-6">
+        Welcome to Login Form
+    </h1>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {{ form.as_p|safe }}
+
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded transition">
+            Login
+        </button>
+    </form>
+
+    <p class="text-center text-gray-700 mt-4">
+        Don't have an account? 
+        <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Register Now!</a>
+    </p>
+</div>
+{% endblock %}

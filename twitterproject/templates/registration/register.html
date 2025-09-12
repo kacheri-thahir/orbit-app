@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h1>Welome to Registration Form</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+   <button class="btn btn-primary" type='submit' >Register</button>
+</form>
+{% endblock %}

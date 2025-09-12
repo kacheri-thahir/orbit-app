@@ -1,0 +1,231 @@
+/* tweet_list-->css */
+
+/* Container spacing */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tweet card */
+.card {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 24px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Image container */
+.card-img-container {
+    width: 100%;
+    max-height: 500px;      /* flexible height */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+/* Image */
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;      /* crop without distortion */
+    object-position: center;
+    display: block;
+}
+
+/* Card body */
+.card-body {
+    padding: 16px 18px;
+}
+
+/* Username */
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+/* Tweet text */
+.card-text {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* Timestamp */
+.card-text small {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Buttons */
+.btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+    margin-right: 6px;
+    transition: background 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+}
+
+/* ----------------------------------------------------------------*/
+
+/* Tweet Form Styling */
+.form {
+    max-width: 600px;
+    margin: 0 auto;              /* center form */
+    padding: 20px;
+    background: #fff;            /* same card background */
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+.form p {
+    margin-bottom: 15px;
+}
+
+.form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.form input[type="text"],
+.form textarea,
+.form input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: 0.2s;
+}
+
+.form input[type="text"]:focus,
+.form textarea:focus,
+.form input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form textarea {
+    resize: none;
+    min-height: 120px;
+}
+
+/* Buttons */
+.form button {
+    background: #007bff;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-right: 10px;
+}
+
+.form button:hover {
+    background: #0056b3;
+}
+
+.form .back {
+    text-decoration: none;
+    padding: 10px 18px;
+    border: 1px solid #007bff;
+    border-radius: 8px;
+    color: #007bff;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.form .back:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* -------------------------------------------------------- */
+/* post 3 dots css */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* 3-dot button */
+.dropdown-toggle {
+    background: none;
+    border: none;
+    font-size: 18px; /* smaller size for 3 dots */
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 100px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    z-index: 100;
+    padding: 0; /* remove extra padding */
+}
+
+/* List items */
+.dropdown-menu li {
+    list-style: none;
+}
+
+/* Menu links */
+.dropdown-menu li a {
+    display: block;
+    padding: 6px 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 12px; /* smaller text */
+    font-weight: normal;
+}
+
+/* Hover effect */
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+
+
+

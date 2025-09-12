@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-4 mt-6">
+
+  <!-- Tweet Section -->
+  <div class="mb-4">
+    <div class="flex items-center space-x-2">
+      <strong>{{ tweet.user.username }}</strong>
+      <span class="text-gray-500 text-sm">{{ tweet.created_at|date:"M d, Y H:i" }}</span>
+    </div>
+    <p class="mt-2">{{ tweet.text }}</p>
+
+    {% if tweet.photo %}
+      <img src="{{ tweet.photo.url }}" alt="tweet photo" class="rounded-lg mt-3 w-full">
+    {% endif %}
+  </div>
+
+  <hr class="my-3">
+
+  <!-- Comments Section -->
+  <div class="max-h-60 overflow-y-auto mb-4 p-2">
+    {% for comment in comments %}
+      <div class="mb-3 border-b pb-2">
+        <!-- Username on top -->
+         <a href="{% url "profile_view" comment.user.username %}">
+           <div 
+           class="font-semibold"  >{{ comment.user.username }}
+          </div>
+        </a>
+
+        <!-- Comment text below -->
+        <div class="ml-0">{{ comment.tweet_comment|linebreaksbr }}</div>
+
+        <!-- Timestamp -->
+        <div class="text-gray-400 text-xs mt-1">{{ comment.created_at|timesince }} ago</div>
+      </div>
+    {% empty %}
+      <p class="text-gray-500">No comments yet. Be the first one!</p>
+    {% endfor %}
+  </div>
+
+  <!-- Add Comment (inside section, not fixed to viewport) -->
+  <div class="border-t pt-3">
+  <form method="post" class="flex items-center border-t pt-3 w-full">
+    {% csrf_token %}
+    {{ form.tweet_comment|add_class:"flex-1 border border-gray-300 px-3 py-2 focus:outline-none resize-none" }}
+    <button type="submit" class="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded-full hover:bg-blue-600">
+      Post
+    </button>
+  </form>
+  </div>
+
+
+</div>
+
+{% endblock %}

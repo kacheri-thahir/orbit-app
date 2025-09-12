@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h2>Search Results for "{{ query }}"</h2>
+
+  <!-- User results -->
+  <h3>Users</h3>
+  {% if user_results %}
+    <ul>
+      {% for user in user_results %}
+        <li>{{ user.username }} </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No users found.</p>
+  {% endif %}
+
+  <!-- Tweet results -->
+  <h3>Tweets</h3>
+  {% if tweet_results %}
+    <div class="row">
+      {% for tweet in tweet_results %}
+        <div class="card mb-3 p-2">
+          <div class="card-body">
+            <p>{{ tweet.text }}</p>
+            {% if tweet.photo %}
+              <img src="{{ tweet.photo.url }}" alt="tweet photo" style="max-width:200px;">
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No tweets found.</p>
+  {% endif %}
+
+{% endblock %}

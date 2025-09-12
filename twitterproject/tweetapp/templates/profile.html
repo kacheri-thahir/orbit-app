@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-6">
+
+  <!-- Profile Header -->
+  <div class="flex items-center space-x-6 p-6 bg-white shadow-md rounded-lg">
+    <!-- Profile Picture -->
+    <div>
+        {% if profile.profile_pic %}
+            <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="w-28 h-28 rounded-full object-cover border-2 border-gray-300">
+        {% else %}
+            <img src="{% static 'profile_pics/default.jpeg' %}" alt="Default Profile Picture" class="w-28 h-28 rounded-full object-cover border-2 border-gray-300">
+        {% endif %}
+
+    </div>
+
+
+    <!-- User Info -->
+    <div class="flex-1">
+      <div class="flex items-center space-x-4">
+        <h2 class="text-2xl font-bold">{{ profile.user.username }}</h2>
+        {% if request.user == profile.user %}
+          <a href="#" class="px-4 py-1 bg-gray-200 rounded text-sm">Edit Profile</a>
+        {% endif %}
+      </div>
+      <div class="flex space-x-6 mt-3 text-sm">
+        <span><b>{{ tweets.count }}</b> posts</span>
+        <span><b>120</b> followers</span>
+        <span><b>150</b> following</span>
+      </div>
+      <p class="mt-2 text-gray-700 text-sm">{{ profile.bio|default:"No bio yet." }}</p>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <hr class="my-6">
+
+  <!-- User Posts Grid -->
+  <div class="grid grid-cols-3 gap-4">
+    {% for tweet in tweets %}
+      <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+        {% if tweet.photo %}
+          <img src="{{ tweet.photo.url }}" alt="Post Image" class="w-full h-40 object-cover">
+        {% endif %}
+        <div class="p-2">
+          <p class="text-sm truncate">{{ tweet.text }}</p>
+          <p class="text-xs text-gray-400">{{ tweet.created_at|timesince }} ago</p>
+        </div>
+      </div>
+    {% empty %}
+      <p class="col-span-3 text-center text-gray-500">No posts yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
