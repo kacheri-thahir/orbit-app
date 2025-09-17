@@ -11,6 +11,7 @@ urlpatterns = [
     path("search/", views.search_bar, name="search_bar"),
     path('like_tweet/<int:pk>/', views.like_tweet,name='like_tweet'),
     path('add_comment/<int:pk>/', views.add_comment,name='add_comment'),
-    path('profile/<str:username>/',views.profile_view,name='profile_view')
-    
+    path('profile/<str:username>/',views.profile_view,name='profile_view'),
+    path('edit_profile/',views.edit_profile,name='edit_profile')
+   
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Tweet,comment,Profile
-from .forms import TweetForm,UserRegistrationForm,CommentForm
+from .forms import TweetForm,UserRegistrationForm,CommentForm,ProfileForm
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth import login 
@@ -115,7 +115,22 @@ def profile_view(request,username):
     user=get_object_or_404(User,username=username)
     profile, created = Profile.objects.get_or_create(user=user)  # ensures profile exists
     # profile=user.profile                            #user.profile gives us that profile object (with extra fields like bio, picture, etc.).
-    tweets=user.tweet_set.all()                       #user.tweet_set.all() → fetches all tweets written by that user.
+    tweets=user.tweet_set.all().order_by('-created_at')                       #user.tweet_set.all() → fetches all tweets written by that user.
     return render(request,'profile.html',{'profile':profile,'tweets':tweets})
 
+
+
+
+def edit_profile(request):
+    profile = get_object_or_404(Profile, user=request.user)  # get Profile object for logged-in user
+    
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view', username=request.user.username)  
+    else:
+        form = ProfileForm(instance=profile)
+    
+    return render(request, 'edit_profile.html', {'form': form})
 

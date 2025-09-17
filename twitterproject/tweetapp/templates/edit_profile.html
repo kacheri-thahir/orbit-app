@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<main class="w-full max-w-lg mx-auto mt-10 bg-white shadow-md rounded-2xl p-8 space-y-6">
+    <!-- Header -->
+    <h2 class="text-2xl font-bold text-gray-800 text-center">Edit Profile</h2>
+    <p class="text-gray-500 text-center">Update your profile details below</p>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+        
+        <!-- Profile picture preview -->
+        <div class="flex flex-col items-center space-y-3">
+            <img id="profilePreview"
+                 src="{% if user.profile.profile_pic %}
+                 {{ user.profile.profile_pic.url }}
+                  {% else %}
+                  {% static 'profile_pics/default.jpeg' %}
+                  {% endif %}" 
+                 alt="{{ user.username }} profile picture"
+                 class="w-28 h-28 rounded-full object-cover border-4 border-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500">
+            
+            <!-- Hidden file input -->
+            <input type="file" id="id_profile_pic" name="profile_pic" accept="image/*" class="hidden">
+            <label for="id_profile_pic" class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                Change Picture
+            </label>
+        </div>
+
+        <!-- Username -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Username</label>
+            {% comment %} {{ form.username }} {% endcomment %}
+            <input type="text" value="{{ user.username }}">
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Bio</label>
+            {{ form.bio }}
+        </div>
+
+        <!-- Location -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Location</label>
+            {{ form.location }}
+        </div>
+
+        <!-- Submit button -->
+        <div class="text-center">
+            <button type="submit"
+                    class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white px-6 py-2 rounded-full font-semibold hover:opacity-90">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</main>
+
+<!-- Preview Script -->
+<script>
+document.getElementById("id_profile_pic").classList.add("hidden");  // hide default file input
+document.getElementById("id_profile_pic").addEventListener("change", function(event) {
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById("profilePreview").src = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+});
+</script>
+{% endblock %}

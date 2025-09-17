@@ -6,8 +6,14 @@
 
   <!-- Tweet Section -->
   <div class="mb-4">
-    <div class="flex items-center space-x-2">
-      <strong>{{ tweet.user.username }}</strong>
+    <a href="{% url 'tweet_list' %}" 
+    class="inline-block text-gray-800 hover:text-gray-900 text-2xl">←</a>
+
+    <a href="{% url "profile_view" tweet.user.username %}">
+      <div class="block mt-2 text-lg text-gray-800">
+        <strong>{{ tweet.user.username }}</strong>
+      </a>
+      
       <span class="text-gray-500 text-sm">{{ tweet.created_at|date:"M d, Y H:i" }}</span>
     </div>
     <p class="mt-2">{{ tweet.text }}</p>
